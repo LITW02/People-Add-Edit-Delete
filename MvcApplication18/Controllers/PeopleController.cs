@@ -15,8 +15,14 @@ namespace MvcApplication18.Controllers
             return View(manager.GetAll());
         }
 
+        [HttpGet]
+        public ActionResult Add()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public ActionResult Add(string firstName, string lastName, int age)
+        public ActionResult SubmitNew(string firstName, string lastName, int age)
         {
             PeopleManager manager = new PeopleManager(Properties.Settings.Default.ConStr);
             manager.Add(new Person
@@ -33,6 +39,28 @@ namespace MvcApplication18.Controllers
         {
             PeopleManager manager = new PeopleManager(Properties.Settings.Default.ConStr);
             manager.Delete(personId);
+            return Redirect("/people/index");
+        }
+
+        public ActionResult Edit(int personId)
+        {
+            PeopleManager manager = new PeopleManager(Properties.Settings.Default.ConStr);
+            Person person = manager.GetById(personId);
+            return View(person);
+        }
+
+        [HttpPost]
+        public ActionResult Update(string firstName, string lastName, int age, int id)
+        {
+            PeopleManager manager = new PeopleManager(Properties.Settings.Default.ConStr);
+            manager.Update(new Person
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Age = age,
+                Id = id
+            });
+
             return Redirect("/people/index");
         }
 

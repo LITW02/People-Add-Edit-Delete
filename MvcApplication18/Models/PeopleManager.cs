@@ -71,5 +71,40 @@ namespace MvcApplication18.Models
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public Person GetById(int personId)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT * FROM People WHERE Id = @id";
+                cmd.Parameters.AddWithValue("@id", personId);
+                connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                reader.Read();
+                Person person = new Person();
+                person.Id = (int)reader["Id"];
+                person.FirstName = (string)reader["FirstName"];
+                person.LastName = (string)reader["LastName"];
+                person.Age = (int)reader["Age"];
+                return person;
+            }
+        }
+
+        public void Update(Person person)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                SqlCommand command = connection.CreateCommand();
+                command.CommandText =
+                    "UPDATE People SET FirstName = @firstName, LastName = @lastName, Age = @age WHERE Id = @id";
+                command.Parameters.AddWithValue("@firstName", person.FirstName);
+                command.Parameters.AddWithValue("@lastName", person.LastName);
+                command.Parameters.AddWithValue("@age", person.Age);
+                command.Parameters.AddWithValue("@id", person.Id);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+        }
     }
 }

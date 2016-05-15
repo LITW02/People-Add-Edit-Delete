@@ -1,0 +1,31 @@
+﻿@{
+    Layout = null;
+}
+
+@using MvcApplication18.Models;
+@model Person
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 well">
+                <form method="POST" action="/people/update">
+                    <input type="text" name="firstName" value="@Model.FirstName" class="form-control" />
+                    <input type="text" name="lastName" value="@Model.LastName" class="form-control" />
+                    <input type="text" name="age" value="@Model.Age" class="form-control" />
+                    <input type="hidden" name="id" value="@Model.Id" />
+                    <button class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
